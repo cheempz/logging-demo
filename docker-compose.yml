@@ -1,0 +1,43 @@
+# compose the demo for trace context in logs
+
+version: '2.4'
+
+x-logging-defaults: &logging-defaults
+  driver: syslog
+  options:
+    syslog-address: unixgram:///dev/log
+    mode: non-blocking
+    tag: '{{.Name}}'
+
+services:
+  nodejs:
+    image: nodetest
+    build:
+      context: ../todo
+    environment:
+      APPOPTICS_COLLECTOR: 'collector.appoptics.com'
+      TODO_MONGODB_ADDRESS: 'mongodb'
+      TODO_SERVER_OPTIONS: '-w 0.0.0.0:8088 -l winston:json -L all'
+    logging:
+      << : *logging-defaults
+    ports:
+      - '8001:8088'
+    volumes:
+      - ./node/config.js:/todo/appoptics-apm.js
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo
+
+  php:
+    image: phptest
+    build:
+      context: ./php
+    logging:
+      << : *logging-defaults
+    ports:
+      - '8002:80'
+    volumes:
+      - ./php/config.ini://usr/local/etc/php/conf.d/appoptics.ini
+      - ./php/:/var/www/html/
