@@ -16,6 +16,7 @@ services:
       context: ../todo
     environment:
       APPOPTICS_COLLECTOR: 'collector.appoptics.com'
+      APPOPTICS_SERVICE_KEY: '<changeme>:node-service'
       TODO_MONGODB_ADDRESS: 'mongodb'
       TODO_SERVER_OPTIONS: '-w 0.0.0.0:8088 -l winston:json -L all'
     logging:

@@ -6,7 +6,6 @@ module.exports = {
   enabled: true,
   hostnameAlias: '',
   domainPrefix: false,
-  serviceKey: '<changeme>:node-service',
   insertTraceIdsIntoLogs: false,
   probes: {
     fs: {

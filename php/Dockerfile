@@ -9,7 +9,7 @@ RUN apt-get update && \
 
 RUN cd /tmp && \
     curl -sSO https://files.appoptics.com/appoptics-php.sh && \
-    bash appoptics-php.sh --service-key=change-me --version=3.6.0 --url=https://s3-us-west-2.amazonaws.com/rc-files-t2/php
+    bash appoptics-php.sh --service-key=change-me
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
