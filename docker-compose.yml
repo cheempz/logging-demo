@@ -10,13 +10,13 @@ x-logging-defaults: &logging-defaults
     tag: '{{.Name}}'
 
 services:
-  nodejs:
-    image: nodetest
+  node-logdemo:
+    image: node-logdemo
     build:
       context: ../todo
     environment:
       APPOPTICS_COLLECTOR: 'collector.appoptics.com'
-      APPOPTICS_SERVICE_KEY: '<changeme>:node-service'
+      APPOPTICS_SERVICE_KEY: ${APPOPTICS_API_TOKEN:?}:node-logdemo
       TODO_MONGODB_ADDRESS: 'mongodb'
       TODO_SERVER_OPTIONS: '-w 0.0.0.0:8088 -l winston:json -L all'
     logging:
@@ -31,10 +31,12 @@ services:
   mongodb:
     image: mongo
 
-  php:
-    image: phptest
+  php-logdemo:
+    image: php-logdemo
     build:
       context: ./php
+    environment:
+      APPOPTICS_SERVICE_KEY: ${APPOPTICS_API_TOKEN:?}:php-logdemo
     logging:
       << : *logging-defaults
     ports:
