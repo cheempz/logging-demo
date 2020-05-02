@@ -23,7 +23,7 @@ https://documentation.solarwinds.com/en/Success_Center/loggly/Content/getting-st
 So application log messages go through this pipeline:
 docker syslog driver --> syslog --> loggly
 
-## Enable/disable
+## Enable/disable Trace Context in Log
 
 Node:
 * config file setting `insertTraceIdsIntoLogs`
@@ -34,9 +34,11 @@ PHP:
 
 ## Run
 
-Set a valid `APPOPTICS_API_TOKEN` in the driver script `demo.sh` then run it:
+In `logging-demo/demo.sh`, set a valid `APPOPTICS_API_TOKEN` then run it:
 
 ```
+cd logging-demo
+...set api token...
 ./demo.sh
 ```
 
