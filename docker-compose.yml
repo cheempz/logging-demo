@@ -13,7 +13,7 @@ services:
   node-logdemo:
     image: node-logdemo
     build:
-      context: ../todo
+      context: ../apm-node-todo
     environment:
       APPOPTICS_COLLECTOR: 'collector.appoptics.com'
       APPOPTICS_SERVICE_KEY: ${APPOPTICS_API_TOKEN:?}:node-logdemo
@@ -24,7 +24,7 @@ services:
     ports:
       - '8001:8088'
     volumes:
-      - ./node/config.js:/todo/appoptics-apm.js
+      - ./node/config.js:/apm-node-todo/appoptics-apm.js
     depends_on:
       - mongodb
 

@@ -4,13 +4,13 @@
 
 On the docker host, clone the following into sibling directories:
 * this repo
-* https://github.com/bmacnaughton/todo
+* https://github.com/appoptics/apm-node-todo
 
 so that they look like:
 ```
 .
 ├── logging-demo
-└── todo
+└── apm-node-todo
 ```
 
 ## Sending to Loggly
