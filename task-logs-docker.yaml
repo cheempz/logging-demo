@@ -1,0 +1,49 @@
+---
+version: 2
+
+schedule:
+  type: streaming
+
+plugins:
+  - plugin_name: docker-logs
+
+    config:
+
+      ## Configure Docker containers logs collection:
+      ## - "enable" switch allows to turn on/off running docker containers logs collector.
+      ## - "endpoint" configures docker service endpoint. Defaults to unix:///var/run/docker.sock
+      ## - "timeout" sets time for calling docker api.
+      ## - "logs" defines the list of filters.
+      ## - "filters" sets filters for getting interesting containers.
+      ##    More can be found here: https://docs.docker.com/engine/api/v1.39/#operation/ContainerList
+      ## - "options" sets options for container logs.
+      ##    More can be found here: https://docs.docker.com/engine/api/v1.39/#operation/ContainerLogs
+      ## - "allow_tty" allows to read logs from container started with opitons -t.
+      ## - "exclude_variables" allows the ignore container by setting container label.
+      ##    Second option for ignoring container is to set for container environment variable:
+      ##    Examle: -e "LOGS=ignore" or -e "LOGS=IGNORE"
+      endpoint: unix:///var/run/docker.sock
+      timeout: 10s
+      logs:
+      - filters:
+          status:
+            running: true
+        options:
+          showstdout: true
+          showstderr: true
+          since: ''
+          follow: true
+          tail: all
+        allow_tty: false
+        exclude_variables:
+        - not-log
+
+    #metrics:
+    #  - /docker-logs/[container]/string_line
+
+    #tags:
+    #  /docker-logs/[container=my_container]/string_line:
+    #    sometag: somevalue
+
+    publish:
+      - plugin_name: loggly-http-bulk
