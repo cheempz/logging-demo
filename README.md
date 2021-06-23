@@ -2,43 +2,31 @@
 
 ## Demo Apps
 
-On the docker host, clone the following into sibling directories:
-* this repo
-* https://github.com/appoptics/apm-node-todo
-
-so that they look like:
-```
-.
-├── logging-demo
-└── apm-node-todo
-```
+Clone this repo on the docker host.
 
 ## Sending to Loggly
 
-The demo apps run in containers and are configured to use the docker syslog driver.
-
-Follow this to have syslog sent to Loggly:
-https://documentation.solarwinds.com/en/Success_Center/loggly/Content/getting-started/gsg-send_data.htm
+The demo apps run in containers, their logs are sent to Loggly via the [Snap agent Docker logs collector]( https://documentation.solarwinds.com/en/success_center/loggly/content/admin/ao-integration-setup.htm#Docker). See [the example Snap task config](./task-logs-docker.yaml) in this project. 
 
 So application log messages go through this pipeline:
-docker syslog driver --> syslog --> loggly
+docker json-files log driver --> snap agent --> loggly
 
 ## Enable/disable Trace Context in Log
 
-Node:
-* config file setting `insertTraceIdsIntoLogs`
+Python:
+* docker-compose environment variable `APPOPTICS_LOG_TRACE_ID`
 
 PHP:
-* uncomment line `$log->pushProcessor('ao_processor');` in the `logging.php` script
+* the line `$log->pushProcessor('ao_processor');` in the `logging.php` script
 * config file setting `appoptics.log_trace_id`
 
 ## Run
 
-In `logging-demo/demo.sh`, set a valid `APPOPTICS_API_TOKEN` then run it:
+Set a valid `APPOPTICS_API_TOKEN` environment variable, then run the demo script:
 
 ```
+export APPOPTICS_API_TOKEN=mysecretaoppopticsapitoken
 cd logging-demo
-...set api token...
 ./demo.sh
 ```
 
