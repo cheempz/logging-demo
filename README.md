@@ -1,15 +1,17 @@
 # logging-demo
 
-## Demo Apps
+## Setup
 
-Clone this repo on the docker host.
+Spin up an EC2 host to run the demo apps.  It should have Docker, Docker Compose and the AppOptics Snap agent installed.
+
+Clone this repo onto the EC2 host.
 
 ## Sending to Loggly
 
 The demo apps run in containers, their logs are sent to Loggly via the [Snap agent Docker logs collector]( https://documentation.solarwinds.com/en/success_center/loggly/content/admin/ao-integration-setup.htm#Docker). See [the example Snap task config](./task-logs-docker.yaml) in this project. 
 
 So application log messages go through this pipeline:
-docker json-files log driver --> snap agent --> loggly
+```docker json-files log driver --> snap agent --> loggly```
 
 ## Enable/disable Trace Context in Log
 
