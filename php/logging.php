@@ -19,7 +19,8 @@ function ao_processor ($record) {
     return $record;
 }
 
-/////// $log->pushProcessor('ao_processor');
+// enable AO trace ID insertion
+$log->pushProcessor('ao_processor');
 
 // add records to the log
 $log->info('Adding a new user', array('username' => 'Seldaek'));

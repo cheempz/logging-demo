@@ -3,33 +3,23 @@
 version: '2.4'
 
 x-logging-defaults: &logging-defaults
-  driver: syslog
   options:
-    syslog-address: unixgram:///dev/log
     mode: non-blocking
-    tag: '{{.Name}}'
 
 services:
-  node-logdemo:
-    image: node-logdemo
+  python-logdemo:
+    image: python-logdemo
     build:
-      context: ../apm-node-todo
+      context: ./python
     environment:
       APPOPTICS_COLLECTOR: 'collector.appoptics.com'
-      APPOPTICS_SERVICE_KEY: ${APPOPTICS_API_TOKEN:?}:node-logdemo
-      TODO_MONGODB_ADDRESS: 'mongodb'
-      TODO_SERVER_OPTIONS: '-w 0.0.0.0:8088 -l winston:json -L all'
+      APPOPTICS_SERVICE_KEY: ${APPOPTICS_API_TOKEN:?}:python-logdemo
+      APPOPTICS_LOG_TRACE_ID: traced
     logging:
       << : *logging-defaults
     ports:
       - '8001:8088'
-    volumes:
-      - ./node/config.js:/apm-node-todo/appoptics-apm.js
-    depends_on:
-      - mongodb
-
-  mongodb:
-    image: mongo
+    command: ["flask", "run", "-h", "0.0.0.0", "-p", "8088"]
 
   php-logdemo:
     image: php-logdemo
